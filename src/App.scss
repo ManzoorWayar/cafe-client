@@ -1,0 +1,108 @@
+.main {
+	min-height: 85vh;
+}
+
+.form-check-input:checked,
+.btn-open {
+	background-color: #00b8a5;
+	border-color: #00b8a5;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #00b8a5 !important;
+	border-color: #00b8a5 !important;
+}
+
+.select__menu {
+	z-index: 10 !important;
+}
+
+.vh-100 {
+	height: 100vh;
+}
+
+a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.active-li {
+	border-bottom: 3px solid #fff;
+}
+
+.disabled {
+	pointer-events: none;
+	filter: sepia(300%) hue-rotate(320deg) saturate(450%);
+}
+
+.auth-form {
+	.auth-row {
+		min-height: 100vh !important;
+		display: flex !important;
+		justify-content: center !important;
+		align-items: center !important;
+	}
+
+	.card {
+		border: 0 !important;
+
+		.auth-img {
+			width: 20%;
+			height: auto;
+			margin: auto;
+		}
+	}
+
+	.vi__wrapper {
+		margin: 1rem auto;
+
+		.vi__character.d {
+			background: #00b8a5;
+			color: #fff;
+			border: 1px solid #fff;
+			border-radius: 0.25rem;
+
+			&:focus {
+				outline: none !important;
+			}
+		}
+	}
+
+	.resend {
+		border-bottom: 1px solid #00b8a5;
+		color: #00b8a5;
+		font-weight: bold;
+
+		&:hover {
+			background-color: #00b8a5;
+			color: #fff;
+			cursor: pointer;
+			transition: 0.4s all;
+		}
+	}
+}
+
+.input-group-text {
+	background-color: transparent !important;
+}
+
+.text-blue {
+	color: #7066e0;
+}
+
+.nav-item {
+	button {
+		font-weight: bold;
+		color: #00b8a5;
+
+		&.nav-link.active {
+			background-color: #00b8a5;
+			color: #fff;
+		}
+
+		&:hover {
+			color: #00b8a5;
+		}
+	}
+}
