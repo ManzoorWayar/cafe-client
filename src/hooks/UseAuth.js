@@ -4,8 +4,7 @@ import { selectCurrentUserStatus } from "../features/auth/authSlice"
 const useAuth = () => {
     const Userstatus = useSelector(selectCurrentUserStatus)
 
-    if (Userstatus && Userstatus.verifiedAt && Userstatus.accessToken) {
-        // const { id, fullName, email, verifiedAt, accessToken } = Userstatus
+    if (Userstatus && Userstatus.accessToken) {
         const { id } = Userstatus
 
         return { isAuth: true, id }

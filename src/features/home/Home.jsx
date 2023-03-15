@@ -1,12 +1,12 @@
 import React from 'react'
 import PcItem from './PcItem'
+import SpendMoney from './SpendMoney'
 import AddCustomer from './AddCustomer'
 import Loader from '../../components/Loader'
 import { useGetPcsQuery } from './pcApiSlice'
-import { Col, Container, Row, Table } from 'react-bootstrap'
+import { Col, Row, Table } from 'react-bootstrap'
 
 const Home = () => {
-
     const {
         data: userPcs,
         isLoading,
@@ -29,7 +29,10 @@ const Home = () => {
         return (
             <Row className='m-auto'>
                 <Col md={10} sm={12} className='m-auto'>
-                    <AddCustomer />
+                    <div className="d-flex justify-content-evenly align-items-center mt-5">
+                        <AddCustomer />
+                        <SpendMoney />
+                    </div>
                     {
                         content.length > 0 ?
                             <Table bordered hover variant='dark' className='mt-5'>

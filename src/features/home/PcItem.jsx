@@ -77,46 +77,50 @@ const PcItem = ({ pcId, index }) => {
     }, [isSuccess]);
 
     return (
-        pc?.message ?
-            <tr className={`text-center ${pc?.paid && 'disabled'}`}>
-                <td>{index + 1}</td>
-                <td><FcMoneyTransfer title='Get Money' size='20' cursor='pointer' onClick={handlewithdrawalPc} /></td>
-                <td>{pc?.pc}</td>
-                <td>{formatLocalTime(pc?.from)}</td>
-                <td>{pc?.paid ? formatLocalTime(pc?.to) : <Clock paid={pc?.paid} />}</td>
-                <td colSpan={7}>{pc?.message}</td>
-                <td>{pc?.totalAmount ? `${pc?.totalAmount} afg` : <Image src={MONEY_GIF} alt='money-loader' width={30} />}</td>
-                <td>{moment(pc?.createdAt).format('llll')}</td>
-                <td>
-                    <Link to={`/accessory/edit/${pc?.id}`}>
-                        <FaEdit title='Edit' color='green' size='20' cursor='pointer' className='me-3' />
-                    </Link>
-                    <MdAutoDelete title='Delete' color='red' size='20' cursor='pointer' className='me-2' onClick={handleDelPc} />
-                </td>
-            </tr>
-            :
-            <tr className={`text-center ${pc?.paid && 'disabled'}`}>
-                <td>{index + 1}</td>
-                <td><FcMoneyTransfer title='Get Money' size='20' cursor='pointer' onClick={handlewithdrawalPc} /></td>
-                <td>{pc?.pc}</td>
-                <td>{formatLocalTime(pc?.from)}</td>
-                <td>{pc?.paid ? formatLocalTime(pc?.to) : <Clock paid={pc?.paid} />}</td>
-                <td>{pc?.isUsingWifi ? <BiWifi size={20} color='#00b8a5' /> : <BiWifiOff size={20} color='red' />}</td>
-                <td>{pc?.isUsingWifi ? `${pc?.speed} mb` : <RiCreativeCommonsZeroFill size={20} color='red' />}</td>
-                <td>{pc?.isUsingMobileWifi ? <BsFillPhoneVibrateFill size={20} color='#00b8a5' /> : <MdOutlineMobileOff size={20} color='red' />}</td>
-                <td>{pc?.isUsingMobileWifi ? `${pc?.mobileSpeed} mb` : <RiCreativeCommonsZeroFill size={20} color='red' />}</td>
-                <td>{pc?.paid ? <TimeDeff from={pc?.from} to={pc?.to} /> : <TimeDeff from={pc?.from} />}</td>
-                <td>{pc?.isGenerator ? <ImPower size={20} color='#00b8a5' /> : <IoMdFlashOff size={20} color='red' />}</td>
-                <td>{pc?.code}</td>
-                <td>{pc?.totalAmount ? `${pc?.totalAmount} afg` : <Image src={MONEY_GIF} alt='money-loader' width={30} />}</td>
-                <td>{moment(pc?.createdAt).format('llll')}</td>
-                <td>
-                    <Link to={`/pc/edit/${pc?.id}`}>
-                        <FaEdit title='Edit' color='green' size='20' cursor='pointer' className='me-3' />
-                    </Link>
-                    <MdAutoDelete title='Delete' color='red' size='20' cursor='pointer' className='me-2' onClick={handleDelPc} />
-                </td>
-            </tr>
+        !pc?.spendMoney &&
+        (
+            pc?.message
+                ?
+                <tr className={`text-center ${pc?.paid && 'disabled'}`}>
+                    <td>{index + 1}</td>
+                    <td><FcMoneyTransfer title='Get Money' size='20' cursor='pointer' onClick={handlewithdrawalPc} /></td>
+                    <td>{pc?.pc}</td>
+                    <td>{formatLocalTime(pc?.from)}</td>
+                    <td>{pc?.paid ? formatLocalTime(pc?.to) : <Clock paid={pc?.paid} />}</td>
+                    <td colSpan={7}>{pc?.message}</td>
+                    <td>{pc?.totalAmount ? `${pc?.totalAmount} afg` : <Image src={MONEY_GIF} alt='money-loader' width={30} />}</td>
+                    <td>{moment(pc?.createdAt).format('llll')}</td>
+                    <td>
+                        <Link to={`/accessory/edit/${pc?.id}`}>
+                            <FaEdit title='Edit' color='green' size='20' cursor='pointer' className='me-3' />
+                        </Link>
+                        <MdAutoDelete title='Delete' color='red' size='20' cursor='pointer' className='me-2' onClick={handleDelPc} />
+                    </td>
+                </tr>
+                :
+                <tr className={`text-center ${pc?.paid && 'disabled'}`}>
+                    <td>{index + 1}</td>
+                    <td><FcMoneyTransfer title='Get Money' size='20' cursor='pointer' onClick={handlewithdrawalPc} /></td>
+                    <td>{pc?.pc}</td>
+                    <td>{formatLocalTime(pc?.from)}</td>
+                    <td>{pc?.paid ? formatLocalTime(pc?.to) : <Clock paid={pc?.paid} />}</td>
+                    <td>{pc?.isUsingWifi ? <BiWifi size={20} color='#00b8a5' /> : <BiWifiOff size={20} color='red' />}</td>
+                    <td>{pc?.isUsingWifi ? `${pc?.speed} mb` : <RiCreativeCommonsZeroFill size={20} color='red' />}</td>
+                    <td>{pc?.isUsingMobileWifi ? <BsFillPhoneVibrateFill size={20} color='#00b8a5' /> : <MdOutlineMobileOff size={20} color='red' />}</td>
+                    <td>{pc?.isUsingMobileWifi ? `${pc?.mobileSpeed} mb` : <RiCreativeCommonsZeroFill size={20} color='red' />}</td>
+                    <td>{pc?.paid ? <TimeDeff from={pc?.from} to={pc?.to} /> : <TimeDeff from={pc?.from} />}</td>
+                    <td>{pc?.isGenerator ? <ImPower size={20} color='#00b8a5' /> : <IoMdFlashOff size={20} color='red' />}</td>
+                    <td>{pc?.code}</td>
+                    <td>{pc?.totalAmount ? `${pc?.totalAmount} afg` : <Image src={MONEY_GIF} alt='money-loader' width={30} />}</td>
+                    <td>{moment(pc?.createdAt).format('llll')}</td>
+                    <td>
+                        <Link to={`/pc/edit/${pc?.id}`}>
+                            <FaEdit title='Edit' color='green' size='20' cursor='pointer' className='me-3' />
+                        </Link>
+                        <MdAutoDelete title='Delete' color='red' size='20' cursor='pointer' className='me-2' onClick={handleDelPc} />
+                    </td>
+                </tr>
+        )
     )
 }
 

@@ -11,8 +11,8 @@ const initialState = pcAdapter.getInitialState()
 export const pcApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getPcs: builder.query({
-            query: () => ({
-                url: '/pc',
+            query: (query) => ({
+                url: `/pc?${query}`,
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },

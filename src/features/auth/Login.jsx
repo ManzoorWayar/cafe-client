@@ -47,7 +47,6 @@ const Login = () => {
     const onSubmitHandler = async (data) => {
         try {
             const userData = await login(data).unwrap()
-            console.log({ userData });
             dispatch(setCredentials({ ...userData }))
             navigate('/')
             reset()

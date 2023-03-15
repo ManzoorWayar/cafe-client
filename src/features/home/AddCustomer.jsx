@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
 import { toast } from "react-toastify"
-import UserPc from '../../utils/schema/UserPc'
 import { IoIosSpeedometer } from 'react-icons/io'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useAddPcMutation } from './pcApiSlice'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { Button, Spinner, Form, InputGroup, Modal, Tabs, Tab } from 'react-bootstrap'
+
 import Accessory from './Accessory'
+import UserPc from '../../utils/schema/UserPc'
 
 const AddCustomer = () => {
     const [show, setShow] = useState(false);
@@ -102,7 +103,7 @@ const AddCustomer = () => {
     };
 
     return (
-        <section className='d-flex justify-content-center align-items-center mt-5'>
+        <section className='d-flex justify-content-center align-items-center'>
             <Button variant='primary' className='px-5 my-2 fw-bold' onClick={handleShow}>
                 ADD PC USER
             </Button>

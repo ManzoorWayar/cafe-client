@@ -5,6 +5,7 @@ import Loader from '../../components/Loader'
 import { Container, Row, Col } from 'react-bootstrap'
 import { calculatePercentage } from '../../utils/utils'
 import { selectAllPcs, useGetPcsQuery } from '../home/pcApiSlice'
+import SpendItem from '../home/SpendItem'
 
 const Analytics = () => {
     const { isLoading, isSuccess, isError, error } = useGetPcsQuery();
@@ -17,7 +18,8 @@ const Analytics = () => {
             .format(new Date()))
         .reduce((sum, { totalAmount }) => sum + (+totalAmount || 0), 0)
 
-
+    const spendMoney = pcs.filter(pc => pc?.spendMoney !== undefined)
+    console.log(spendMoney);
     const options = {
         chart: {
             height: 350,
@@ -40,9 +42,21 @@ const Analytics = () => {
         <section className='mt-5'>
             <Container>
                 <Row>
-                    <Col lg={4} md={6} sm={12}>
+                    <Col lg={4} md={6} sm={12} className='m-auto'>
                         <h3 className='text-center'>Today Amount: {existMoney} AFG</h3>
                         <Chart options={options} series={calculatePercentage(existMoney, targetMoney)} type='radialBar' height={350} />
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col lg={4} md={6} sm={12} className='m-auto mt-5'>
+                        <h3 className='text-center mt-3'>Spend Money</h3>
+                        {spendMoney.length > 0
+                            ?
+                            spendMoney?.map((item, index) => <SpendItem key={item?._id} index={index} item={item} />)
+                            :
+                            <h3 className='text-center'>No Spend Money Exist Yet!</h3>
+                        }
                     </Col>
                 </Row>
             </Container>
