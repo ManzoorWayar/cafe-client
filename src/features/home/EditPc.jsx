@@ -2,13 +2,12 @@ import React, { useEffect } from 'react'
 import Select from 'react-select'
 import { toast } from 'react-toastify'
 import { useGetPcsQuery } from './pcApiSlice'
-import UserPc from '../../utils/schema/UserPc'
-import { IoIosSpeedometer } from 'react-icons/io'
 import { useUpdatePcMutation } from './pcApiSlice'
 import { yupResolver } from '@hookform/resolvers/yup'
+import EditUserPc from '../../utils/schema/EditUserPc'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Controller, useForm, useWatch } from 'react-hook-form'
-import { Container, Row, Col, Form, InputGroup, Spinner, Button } from 'react-bootstrap'
+import { Container, Row, Col, Form, Spinner, Button } from 'react-bootstrap'
 
 const EditPc = () => {
     const { id } = useParams()
@@ -50,8 +49,8 @@ const EditPc = () => {
     } = useForm({
         mode: 'onChange',
         defaultValues:
-            { pc: pcNumbers.get(pc?.pc), code: pc?.code, speed: wifiSpeedVlaue.get(pc?.speed), mobileSpeed: wifiSpeedVlaue.get(pc?.speed) },
-        resolver: yupResolver(UserPc),
+            { pc: pcNumbers.get(pc?.pc), speed: wifiSpeedVlaue.get(pc?.speed), mobileSpeed: wifiSpeedVlaue.get(pc?.mobileSpeed) },
+        resolver: yupResolver(EditUserPc),
     })
 
     const [updatePc, { isLoading }] = useUpdatePcMutation()
@@ -85,11 +84,11 @@ const EditPc = () => {
 
         !isUsingMobileWifi && setValue('mobileSpeed', '', { shouldTouch: true })
 
-    }, [isUsingWifi, isUsingMobileWifi])
+    }, [isUsingWifi, isUsingMobileWifi, setValue])
 
     const onSubmitHandler = async (data) => {
         try {
-            data.pc = data.pc.value
+            data.pc = data?.pc?.value
             data.speed = isUsingWifi && data.speed.value
             data.mobileSpeed = isUsingMobileWifi && data.mobileSpeed.value
 
@@ -172,32 +171,7 @@ const EditPc = () => {
                                 </Form.Group>
                             </Col>
 
-                            <Col lg={6} md={6} sm={12} className='my-3'>
-                                <Form.Group controlId='page-code'>
-                                    <Form.Label className='fw-bold'>Page Code</Form.Label>
-                                    <InputGroup>
-                                        <InputGroup.Text
-                                            className='addon-icon'
-                                            id='basic-addon1'
-                                        >
-                                            <IoIosSpeedometer size={20} color='#00b8a5' />
-                                        </InputGroup.Text>
-                                        <Form.Control
-                                            type='number'
-                                            {...register('code', { required: true })}
-                                            name='code'
-                                            className={`py-2 ${errors.code && 'is-invalid'
-                                                }`}
-                                            placeholder='Write Page Code'
-                                        ></Form.Control>
-                                    </InputGroup>
-                                    <p className='small text-danger pt-1'>
-                                        {errors.code?.message}
-                                    </p>
-                                </Form.Group>
-                            </Col>
-
-                            <Col lg={12} md={12} sm={12} className='my-4'>
+                            <Col lg={6} md={6} sm={12} className='my-5'>
                                 <Form.Check
                                     label='Is using isGenerator ?'
                                     name='isGenerator'
@@ -307,7 +281,7 @@ const EditPc = () => {
 
                             {isUsingWifi && <Col lg={6} md={6} sm={12} className='my-5 m-auto'>
                                 <Button type='submit' className='w-100 fw-bold' variant='primary' disabled={isLoading}>
-                                    {isLoading ? <Spinner /> : 'UPDATE PC'}
+                                    {isSubmitting ? <Spinner /> : 'UPDATE PC'}
                                 </Button>
                             </Col>
                             }

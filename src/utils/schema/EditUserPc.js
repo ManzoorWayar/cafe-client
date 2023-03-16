@@ -1,18 +1,6 @@
 import * as yup from "yup"
 
-const UserPc = yup.object().shape({
-    pc: yup
-        .string()
-        .when('jsutMobileWifi', (payload, schema) => {
-            return payload[0] === false ?
-                yup.object().shape({
-                    value: yup.string().trim().required('لطفا نام کامپیوتر را انتخاب کنید'),
-                    label: yup.string().trim().required('لطفا نام کامپیوتر را انتخاب کنید'),
-                })
-                :
-                schema.nullable()
-        }),
-
+const EditUserPc = yup.object().shape({
     speed: yup
         .string()
         .when('isUsingWifi', (payload, schema) => {
@@ -38,4 +26,4 @@ const UserPc = yup.object().shape({
         }),
 });
 
-export default UserPc;
+export default EditUserPc;

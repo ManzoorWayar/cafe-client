@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 import { toast } from "react-toastify"
-import { IoIosSpeedometer } from 'react-icons/io'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { useAddPcMutation } from './pcApiSlice'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, useForm, useWatch } from 'react-hook-form'
-import { Button, Spinner, Form, InputGroup, Modal, Tabs, Tab } from 'react-bootstrap'
+import { Button, Spinner, Form, Modal, Tabs, Tab } from 'react-bootstrap'
 
 import Accessory from './Accessory'
 import UserPc from '../../utils/schema/UserPc'
-
 const AddCustomer = () => {
     const [show, setShow] = useState(false);
 
@@ -20,6 +18,7 @@ const AddCustomer = () => {
         register,
         handleSubmit,
         setError,
+        setValue,
         control,
         formState: { errors, isSubmitting },
         reset,
@@ -28,11 +27,24 @@ const AddCustomer = () => {
         resolver: yupResolver(UserPc),
     })
 
-    const [addPc, { error }] = useAddPcMutation()
+    const [addPc] = useAddPcMutation()
 
     useWatch({ control, name: 'isGenerator', defaultValue: false })
     const isUsingWifi = useWatch({ control, name: 'isUsingWifi', defaultValue: false })
+    const jsutMobileWifi = useWatch({ control, name: 'jsutMobileWifi', defaultValue: false })
     const isUsingMobileWifi = useWatch({ control, name: 'isUsingMobileWifi', defaultValue: false })
+
+    useEffect(() => {
+        if (jsutMobileWifi)
+            setValue("isUsingMobileWifi", jsutMobileWifi, {
+                shouldValidate: true,
+                shouldDirty: true,
+            })
+
+        if (Object.keys(errors).length > 0 && jsutMobileWifi)
+            setValue('pc', false, { shouldTouch: true })
+
+    }, [errors, jsutMobileWifi, setValue])
 
     const PcOptions = [
         { label: 'pc-1', value: '1' },
@@ -56,7 +68,7 @@ const AddCustomer = () => {
 
     const onSubmitHandler = async (data) => {
         try {
-            data.pc = data.pc.value
+            data.pc = data?.pc?.value
             data.speed = isUsingWifi && data.speed.value
             data.mobileSpeed = isUsingMobileWifi && data.mobileSpeed.value
             data.mobileFrom = isUsingMobileWifi ? new Date() : null
@@ -194,30 +206,16 @@ const AddCustomer = () => {
                                     </Form.Group>
                                 )}
 
-                                <Form.Group controlId="page-code">
-                                    <Form.Label className="fw-bold mt-3">
-                                        Page  Code
-                                    </Form.Label>
-                                    <InputGroup>
-                                        <InputGroup.Text
-                                            className="addon-icon"
-                                            id="basic-addon1"
-                                        >
-                                            <IoIosSpeedometer size={20} color="#00b8a5" />
-                                        </InputGroup.Text>
-                                        <Form.Control
-                                            type="number"
-                                            {...register("code", { required: true })}
-                                            name="code"
-                                            className={`py-2 ${errors.code && "is-invalid"
-                                                }`}
-                                            placeholder="Write Page Code"
-                                        ></Form.Control>
-                                    </InputGroup>
-                                    <p className="small text-danger pt-1">
-                                        {errors.code?.message}
-                                    </p>
-                                </Form.Group>
+                                <hr className='my-4' />
+
+                                <Form.Check
+                                    label="Only using Mobile Wifi, No File-Share ?"
+                                    name="jsutMobileWifi"
+                                    id="jsutMobileWifi"
+                                    {...register("jsutMobileWifi")}
+                                    className='mb-2'
+                                    aria-label="jsutMobileWifi"
+                                />
 
                                 <Form.Check
                                     label="Is using Mobile Wifi ?"
@@ -228,7 +226,7 @@ const AddCustomer = () => {
                                     aria-label="isUsingMobileWifi"
                                 />
 
-                                {isUsingMobileWifi && (
+                                {isUsingMobileWifi && <>
                                     <Form.Group controlId='mobileSpeed' className='my-3'>
                                         <Controller
                                             name='mobileSpeed'
@@ -256,14 +254,16 @@ const AddCustomer = () => {
                                             {errors.mobileSpeed?.label?.message}
                                         </p>
                                     </Form.Group>
-                                )}
+                                </>}
+
+                                <hr className='my-4' />
 
                                 <Form.Check
                                     label="Is using Generator ?"
                                     name="isGenerator"
                                     id="isGenerator"
                                     {...register("isGenerator")}
-                                    className='mb-2'
+                                    className='mb-4'
                                     aria-label="isGenerator"
                                 />
 
@@ -279,7 +279,7 @@ const AddCustomer = () => {
                     </Tabs>
                 </Modal.Body>
             </Modal>
-        </section>
+        </section >
     )
 }
 

@@ -24,7 +24,7 @@ const Header = () => {
 
     return (
         <header>
-            <Navbar bg='dark' variant='dark' expand='lg' sticky='top' collapseOnSelect>
+            <Navbar bg='dark' variant='dark' sticky='top' collapseOnSelect>
                 <Container>
                     <Image className='me-2' src={ROMANNET_LOGO} alt='Roman-Net logo' width={50} />
                     <LinkContainer to='/'>
@@ -34,12 +34,12 @@ const Header = () => {
                     {
                         isAuth &&
                         <Navbar.Collapse id='responsive-navbar-nav'>
-                            <Nav className='me-auto'>
+                            <Nav className='m-auto d-flex justify-content-center align-items-center gap-4'>
                                 <NavLink to="/">
                                     {({ isActive }) => (
                                         <AiFillHome
                                             color="white"
-                                            className={`ms-5 my-2 ${isActive && "active-li"}`}
+                                            className={`my-2 ${isActive && "active-li"}`}
                                             size={30}
                                         />
                                     )}
@@ -48,7 +48,7 @@ const Header = () => {
                                     {({ isActive }) => (
                                         <DiGoogleAnalytics
                                             color="white"
-                                            className={`ms-5 my-2 ${isActive && "active-li"}`}
+                                            className={`my-2 ${isActive && "active-li"}`}
                                             size={30}
                                         />
                                     )}
@@ -58,7 +58,6 @@ const Header = () => {
                                 <FiLogOut size='30' color='white' cursor='pointer' onClick={handleLogout} />
                             </Nav>
                         </Navbar.Collapse>
-
                     }
                 </Container>
             </Navbar>

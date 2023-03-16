@@ -29,13 +29,13 @@ const Home = () => {
         return (
             <Row className='m-auto'>
                 <Col md={10} sm={12} className='m-auto'>
-                    <div className="d-flex justify-content-evenly align-items-center mt-5">
+                    <div className="d-flex flex-column flex-lg-row flex-xl-row justify-content-evenly align-items-center mt-5">
                         <AddCustomer />
                         <SpendMoney />
                     </div>
                     {
                         content.length > 0 ?
-                            <Table bordered hover variant='dark' className='mt-5'>
+                            <Table responsive="lg" bordered hover variant='dark' className='mt-5'>
                                 <thead>
                                     <tr className='text-center'>
                                         <th>#</th>
@@ -49,7 +49,6 @@ const Home = () => {
                                         <th>Mobil-Speed</th>
                                         <th>Passed Time</th>
                                         <th>Is Generator</th>
-                                        <th>Code</th>
                                         <th>Total Money</th>
                                         <th>Date</th>
                                         <th>actions</th>

@@ -24,6 +24,7 @@ const Accessory = ({ setShow }) => {
 
     const onSubmitHandler = async (data) => {
         try {
+            data.paid = true
             data.totalAmount = data.accessory
 
             await addPc(data).unwrap();
