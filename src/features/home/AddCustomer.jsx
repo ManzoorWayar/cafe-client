@@ -8,6 +8,7 @@ import { Button, Spinner, Form, Modal, Tabs, Tab } from 'react-bootstrap'
 
 import Accessory from './Accessory'
 import UserPc from '../../utils/schema/UserPc'
+
 const AddCustomer = () => {
     const [show, setShow] = useState(false);
 
@@ -68,6 +69,7 @@ const AddCustomer = () => {
 
     const onSubmitHandler = async (data) => {
         try {
+            console.log(data);
             data.pc = data?.pc?.value
             data.speed = isUsingWifi && data.speed.value
             data.mobileSpeed = isUsingMobileWifi && data.mobileSpeed.value
@@ -86,15 +88,10 @@ const AddCustomer = () => {
             })
             reset()
             setShow(false)
-            // reset({
-            //     pc: { label: 'Select A PC', value: '' },
-            //     code: '',
-            //     speed: ''
-            // });
-            // navigate("/");
+
         } catch (rejectResp) {
             const { data } = rejectResp;
-
+            console.log(rejectResp);
             if (data?.errors) {
                 data.errors.forEach((error) =>
                     setError(error["param"], { type: "manual", message: error["msg"] })

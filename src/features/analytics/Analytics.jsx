@@ -5,21 +5,16 @@ import { useSelector } from 'react-redux'
 import Loader from '../../components/Loader'
 import { calculatePercentage } from '../../utils/utils'
 import { selectAllPcs, useGetPcsQuery } from '../home/pcApiSlice'
-import { Container, Row, Col, Table, ListGroup } from 'react-bootstrap'
+import { Container, Row, Col, Table } from 'react-bootstrap'
 
 const Analytics = () => {
-    const { isLoading, isSuccess, isError, error } = useGetPcsQuery();
+    const { isLoading } = useGetPcsQuery();
 
     const targetMoney = 500
     const pcs = useSelector(selectAllPcs)
 
-    const existMoney = pcs.filter(pc => Intl.DateTimeFormat({ local: 'en-us' })
-        .format(new Date(pc?.createdAt)) === Intl.DateTimeFormat({ local: 'en-us' })
-            .format(new Date()))
-        .reduce((sum, { totalAmount }) => sum + (+totalAmount || 0), 0)
-
+    const existMoney = pcs.reduce((sum, { totalAmount }) => sum + (+totalAmount || 0), 0)
     const spendMoneyTasks = pcs.filter(pc => pc?.spendMoney !== undefined)
-
     const spendMoney = spendMoneyTasks.reduce((sum, { spendMoney }) => sum + (+spendMoney || 0), 0)
 
     const options = {
@@ -31,11 +26,11 @@ const Analytics = () => {
         plotOptions: {
             radialBar: {
                 hollow: {
-                    size: '80%',
+                    size: `${existMoney > 2000 ? '80%' : '60%'}`,
                 }
             },
         },
-        labels: ['500 Afg Target', 'Second Money Target'],
+        labels: ['500 Afg Target', '1000 Afg Target', '1500 Afg Target', '2000 Afg Target', '3000 Afg Target'],
     }
 
     if (isLoading) return <Loader />
@@ -68,7 +63,6 @@ const Analytics = () => {
                         </Table>
                     </Col>
                 </Row>
-
                 <Row>
                     {spendMoneyTasks?.map((item, index) => <SpendItem key={item?._id} item={item} index={index} />)}
                 </Row>

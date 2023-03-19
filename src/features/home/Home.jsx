@@ -15,8 +15,8 @@ const Home = () => {
         // error
     } = useGetPcsQuery('pcList', {
         // pollingInterval: 15000,
-        // refetchOnFocus: true,
-        // refetchOnMountOrArgChange: true
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
     })
 
     if (isLoading) return <Loader />

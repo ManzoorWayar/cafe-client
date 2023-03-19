@@ -5,6 +5,7 @@ import {
   Route,
   RouterProvider
 } from "react-router-dom"
+import Monthly from "./features/analytics/Monthly"
 import PersistLogin from "./features/auth/PersistLogin"
 
 const Prefetch = lazy(() => import("./features/auth/Prefetch"))
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="pc/edit/:id" element={<EditPc />} />
             <Route path="accessory/edit/:id" element={<EditAccessory />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/report" element={<Monthly />} />
           </Route>
         </Route>
 

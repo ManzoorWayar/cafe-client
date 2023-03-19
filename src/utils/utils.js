@@ -23,3 +23,21 @@ export const calculatePercentage = (value, total) => {
     else
         return [percentage];
 }
+
+export const sortAndFilter = (collections) => {
+    collections.filter(collection => Intl.DateTimeFormat({ local: 'en-us' })
+        .format(new Date(collection?.createdAt)) === Intl.DateTimeFormat({ local: 'en-us' })
+            .format(new Date()))
+}
+
+export const getMounthsOfYear = (reports) => {
+    const months = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+
+    return reports?.map(report => new Date(report?.createdAt).getMonth()).sort((a, b) => a - b).map(name => months[name])
+}
+
+// const existMoney = pcs.filter(pc => Intl.DateTimeFormat({ local: 'en-us' })
+//     .format(new Date(pc?.createdAt)) === Intl.DateTimeFormat({ local: 'en-us' })
+//         .format(new Date()))
+//     .reduce((sum, { totalAmount }) => sum + (+totalAmount || 0), 0)

@@ -31,7 +31,13 @@ const SpendItem = ({ item, index }) => {
     return (
         <Col lg={6} md={6} sm={12} className='m-auto mt-5'>
             <ListGroup as="ol">
-                <MdAutoDelete title='Delete' color='red' size='20' cursor='pointer' className='me-2' onClick={handleDelPc} />
+                <div className="d-flex justify-content-between align-items-center mb-1">
+                    <Badge bg="success" pill>
+                        {`${item?.creatorId?.firstName} ${item?.creatorId?.lastName}`}
+                    </Badge>
+                    <MdAutoDelete title='Delete' color='red' size='20' cursor='pointer' onClick={handleDelPc} />
+                </div>
+
                 <ListGroup.Item
                     as="li"
                     action

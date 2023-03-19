@@ -28,6 +28,7 @@ const PcItem = ({ pcId, index }) => {
             pc: data?.entities[pcId],
         }),
     })
+
     const [delPc] = useDeletePcMutation()
     const [withdrawalPc, { data: withdrawalPcData, isSuccess, error }] = useWithdrawalPcMutation()
 
