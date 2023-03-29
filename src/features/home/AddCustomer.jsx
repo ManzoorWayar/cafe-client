@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
+import MobileWifi from './MobileWifi'
 import { toast } from "react-toastify"
 import { useAddPcMutation } from './pcApiSlice'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -32,20 +33,25 @@ const AddCustomer = () => {
 
     useWatch({ control, name: 'isGenerator', defaultValue: false })
     const isUsingWifi = useWatch({ control, name: 'isUsingWifi', defaultValue: false })
-    const jsutMobileWifi = useWatch({ control, name: 'jsutMobileWifi', defaultValue: false })
+    // const jsutMobileWifi = useWatch({ control, name: 'jsutMobileWifi', defaultValue: false })
     const isUsingMobileWifi = useWatch({ control, name: 'isUsingMobileWifi', defaultValue: false })
 
+    // useEffect(() => {
+    //     if (jsutMobileWifi)
+    //         setValue("isUsingMobileWifi", jsutMobileWifi, {
+    //             shouldValidate: true,
+    //             shouldDirty: true,
+    //         })
+
+    //     if (Object.keys(errors).length > 0 && jsutMobileWifi)
+    //         setValue('pc', false, { shouldTouch: true })
+
+    // }, [errors, jsutMobileWifi, setValue])
+
     useEffect(() => {
-        if (jsutMobileWifi)
-            setValue("isUsingMobileWifi", jsutMobileWifi, {
-                shouldValidate: true,
-                shouldDirty: true,
-            })
+        !isUsingWifi && setValue('speed', '', { shouldTouch: true })
 
-        if (Object.keys(errors).length > 0 && jsutMobileWifi)
-            setValue('pc', false, { shouldTouch: true })
-
-    }, [errors, jsutMobileWifi, setValue])
+    }, [isUsingWifi, setValue])
 
     const PcOptions = [
         { label: 'pc-1', value: '1' },
@@ -69,11 +75,8 @@ const AddCustomer = () => {
 
     const onSubmitHandler = async (data) => {
         try {
-            console.log(data);
             data.pc = data?.pc?.value
             data.speed = isUsingWifi && data.speed.value
-            data.mobileSpeed = isUsingMobileWifi && data.mobileSpeed.value
-            data.mobileFrom = isUsingMobileWifi ? new Date() : null
 
             await addPc(data).unwrap();
             toast.success("PC Add Successfully", {
@@ -114,7 +117,7 @@ const AddCustomer = () => {
     return (
         <section className='d-flex justify-content-center align-items-center'>
             <Button variant='primary' className='px-5 my-2 fw-bold' onClick={handleShow}>
-                ADD PC USER
+                ADD PC DETAILS
             </Button>
 
             <Modal
@@ -206,56 +209,6 @@ const AddCustomer = () => {
                                 <hr className='my-4' />
 
                                 <Form.Check
-                                    label="Only using Mobile Wifi, No File-Share ?"
-                                    name="jsutMobileWifi"
-                                    id="jsutMobileWifi"
-                                    {...register("jsutMobileWifi")}
-                                    className='mb-2'
-                                    aria-label="jsutMobileWifi"
-                                />
-
-                                <Form.Check
-                                    label="Is using Mobile Wifi ?"
-                                    name="isUsingMobileWifi"
-                                    id="isUsingMobileWifi"
-                                    {...register("isUsingMobileWifi")}
-                                    className='mb-2'
-                                    aria-label="isUsingMobileWifi"
-                                />
-
-                                {isUsingMobileWifi && <>
-                                    <Form.Group controlId='mobileSpeed' className='my-3'>
-                                        <Controller
-                                            name='mobileSpeed'
-                                            control={control}
-                                            render={({ field }) => {
-                                                return (
-                                                    <Select
-                                                        controlShouldRenderValue={true}
-                                                        options={wifiSpeed}
-                                                        id='mobileSpeed'
-                                                        name='mobileSpeed'
-                                                        placeholder='Select Mobile Wifi Speed'
-                                                        className={`  react-select ${errors.mobileSpeed?.label?.message && 'border border-danger'
-                                                            }`}
-                                                        classNamePrefix='select'
-                                                        errorText={true}
-                                                        aria-invalid={errors.mobileSpeed?.label?.message && true}
-                                                        aria-errormessage='speed-invalid'
-                                                        {...field}
-                                                    />
-                                                )
-                                            }}
-                                        />
-                                        <p className='small text-danger pt-1'>
-                                            {errors.mobileSpeed?.label?.message}
-                                        </p>
-                                    </Form.Group>
-                                </>}
-
-                                <hr className='my-4' />
-
-                                <Form.Check
                                     label="Is using Generator ?"
                                     name="isGenerator"
                                     id="isGenerator"
@@ -268,6 +221,10 @@ const AddCustomer = () => {
                                     {isSubmitting ? <Spinner /> : "ADD PC"}
                                 </Button>
                             </Form>
+                        </Tab>
+
+                        <Tab eventKey="mobileWifi" title="mobileWifi">
+                            <MobileWifi setShow={setShow} />
                         </Tab>
 
                         <Tab eventKey="accessory" title="Accessory">

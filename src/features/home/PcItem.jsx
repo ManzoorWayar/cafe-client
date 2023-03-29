@@ -32,6 +32,12 @@ const PcItem = ({ pcId, index }) => {
     const [delPc] = useDeletePcMutation()
     const [withdrawalPc, { data: withdrawalPcData, isSuccess, error }] = useWithdrawalPcMutation()
 
+    const diffTime = (from, to) => {
+        let diff = (new Date(from).getTime() - new Date(to).getTime()) / 1000;
+        diff /= 60;
+        return Math.abs(Math.round(diff))
+    }
+
     const handleDelPc = () => {
         MySwal.fire({
             title: 'Are you sure?',
@@ -111,9 +117,9 @@ const PcItem = ({ pcId, index }) => {
                     <td>{pc?.isUsingWifi ? `${pc?.speed} mb` : <RiCreativeCommonsZeroFill size={20} color='red' />}</td>
                     <td>{pc?.isUsingMobileWifi ? <BsFillPhoneVibrateFill size={20} color='#00b8a5' /> : <MdOutlineMobileOff size={20} color='red' />}</td>
                     <td>{pc?.isUsingMobileWifi ? `${pc?.mobileSpeed} mb` : <RiCreativeCommonsZeroFill size={20} color='red' />}</td>
-                    <td>{pc?.paid ? <TimeDeff from={pc?.from} to={pc?.to} /> : <TimeDeff from={pc?.from} />}</td>
+                    <td>{pc?.paid ? `${diffTime(pc?.from, pc?.to)} mins` : <TimeDeff from={pc?.from} />}</td>
                     <td>{pc?.isGenerator ? <ImPower size={20} color='#00b8a5' /> : <IoMdFlashOff size={20} color='red' />}</td>
-                    <td>{pc?.totalAmount ? `${pc?.totalAmount} afg` : <Image src={MONEY_GIF} alt='money-loader' width={30} />}</td>
+                    <td>{(pc?.totalAmount === 0 || pc?.totalAmount) ? `${pc?.totalAmount} afg` : <Image src={MONEY_GIF} alt='money-loader' width={30} />}</td>
                     <td>{moment(pc?.createdAt).format('llll')}</td>
                     <td>
                         <Link to={`/pc/edit/${pc?.id}`}>

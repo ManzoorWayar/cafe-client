@@ -1,17 +1,10 @@
 import * as yup from "yup"
 
 const UserPc = yup.object().shape({
-    pc: yup
-        .string()
-        .when('jsutMobileWifi', (payload, schema) => {
-            return payload[0] === false ?
-                yup.object().shape({
-                    value: yup.string().trim().required('لطفا نام کامپیوتر را انتخاب کنید'),
-                    label: yup.string().trim().required('لطفا نام کامپیوتر را انتخاب کنید'),
-                })
-                :
-                schema.nullable()
-        }),
+    pc: yup.object().shape({
+        value: yup.string().trim().required('لطفا نام کامپیوتر را انتخاب کنید'),
+        label: yup.string().trim().required('لطفا نام کامپیوتر را انتخاب کنید')
+    }),
 
     speed: yup
         .string()
@@ -23,19 +16,7 @@ const UserPc = yup.object().shape({
                 })
                 :
                 schema.nullable()
-        }),
-
-    mobileSpeed: yup
-        .string()
-        .when('isUsingMobileWifi', (payload, schema) => {
-            return payload[0] === true ?
-                yup.object().shape({
-                    label: yup.string().trim().required('لطفا سرعت وای فای مبایل را انتخاب کنید'),
-                    value: yup.string().trim().required('لطفا سرعت وای فای را مبایل انتخاب کنید')
-                })
-                :
-                schema.nullable()
-        }),
+        })
 });
 
 export default UserPc;
