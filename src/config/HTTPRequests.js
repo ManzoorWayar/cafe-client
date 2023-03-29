@@ -1,4 +1,4 @@
-const APP_ENV = 'development'
+const APP_ENV = 'developments'
 const BASE_URL = 'http://localhost:5000'
 const PRODUCTION_URL = "https://cafe-api-uwar.onrender.com"
 
