@@ -27,7 +27,7 @@ ChartJS.register(
 
 const Monthly = () => {
     const today = new Date()
-    const [constituentDate, setConstituentDate] = useState([today.getFullYear(), today.getMonth() + 1, today.getDate()])
+    const [constituentDate, setConstituentDate] = useState([today.getFullYear(), today.getMonth() + 1, ''])
 
     const [year, setYear] = useState(today.getFullYear());
     const [month, setMonth] = useState(today.getMonth() + 1);
@@ -113,11 +113,11 @@ const Monthly = () => {
             setDay('')
         }
 
-        setConstituentDate([year, month, day === 'Select Day' ? '' : day]);
+        setConstituentDate([year, month, ['', 'Select Day'].includes(day) ? '' : day]);
     }
 
     const setReset = () => {
-        setConstituentDate([today.getFullYear(), today.getMonth() + 1, today.getDate()])
+        setConstituentDate([today.getFullYear(), today.getMonth() + 1, ''])
     }
 
     if (isLoading) return <Loader />
@@ -185,12 +185,14 @@ const Monthly = () => {
                                     <tr className='text-center'>
                                         <th>Total</th>
                                         <th>Spend Money</th>
+                                        <th>Cash</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr className='text-center'>
                                         <td>{totalMoney} AFG</td>
                                         <td>{spendMoney} AFG</td>
+                                        <td>{totalMoney - spendMoney} AFG</td>
                                     </tr>
                                 </tbody>
                             </Table>
