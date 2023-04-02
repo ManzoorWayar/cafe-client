@@ -27,18 +27,13 @@ ChartJS.register(
 
 const Monthly = () => {
     const today = new Date()
-    const [startDate, setStartDate] = useState(`${today.getFullYear()}-${today.getMonth() + 1}-1`)
-    const [endDate, setEndDate] = useState(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`)
+    const [constituentDate, setConstituentDate] = useState([today.getFullYear(), today.getMonth() + 1, ''])
 
     const [year, setYear] = useState(today.getFullYear());
     const [month, setMonth] = useState(today.getMonth() + 1);
-    const [day, setDay] = useState(1);
+    const [day, setDay] = useState('');
 
-    const [secYear, setSecYear] = useState(today.getFullYear());
-    const [secMonth, setSecMonth] = useState(today.getMonth() + 1);
-    const [secDay, setSecDay] = useState(today.getDate());
-
-    const { data: reportsData, isLoading, isSuccess } = useGetAnalyticsQuery({ startDate, endDate })
+    const { data: reportsData, isLoading, isSuccess } = useGetAnalyticsQuery(constituentDate)
 
     const labels = [...new Set(getMounthsOfYear([]))]
 
@@ -113,30 +108,17 @@ const Monthly = () => {
         setDay(e.target.value);
     };
 
-    const handleSecYear = (e) => {
-        setSecYear(e.target.value);
-    };
-
-    const handleSecMonth = (e) => {
-        setSecMonth(e.target.value);
-    };
-
-    const handleSecDay = (e) => {
-        setSecDay(e.target.value);
-    };
-
     const getReport = () => {
-        setStartDate(`${year}-${month}-${day}`)
-        setEndDate(`${secYear}-${secMonth}-${secDay}`)
-        console.log(startDate, endDate);
+        if (day === 'Select Day') {
+            setDay('')
+        }
+
+        setConstituentDate([year, month, ['', 'Select Day'].includes(day) ? '' : day]);
     }
 
     const setReset = () => {
-        setStartDate(`${today.getFullYear()}-${today.getMonth() + 1}-1`)
-        setEndDate(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`)
+        setConstituentDate([today.getFullYear(), today.getMonth() + 1, ''])
     }
-
-    console.log(startDate, endDate, { year, month, day, secYear, secMonth, secDay });
 
     if (isLoading) return <Loader />
 
@@ -161,7 +143,7 @@ const Monthly = () => {
                         <Row className='m-auto'>
                             <Col md={3} sm={12} className='m-auto'>
                                 <Form.Label className="fw-bold">
-                                    Start Year
+                                    Year
                                 </Form.Label>
                                 <Form.Select value={year} onChange={handleYear}>
                                     {years.map((option) => (
@@ -171,7 +153,7 @@ const Monthly = () => {
                             </Col>
                             <Col md={3} sm={12} className='m-auto'>
                                 <Form.Label className="fw-bold">
-                                    Start Month
+                                    Month
                                 </Form.Label>
                                 <Form.Select value={month} onChange={handleMonth}>
                                     {months.map((option) => (
@@ -181,7 +163,7 @@ const Monthly = () => {
                             </Col>
                             <Col md={3} sm={12} className='m-auto'>
                                 <Form.Label className="fw-bold">
-                                    Start Day
+                                    Day
                                 </Form.Label>
                                 <Form.Select value={day} onChange={handleDay}>
                                     <option defaultValue value='Select Day'>Select Day</option>
@@ -190,52 +172,14 @@ const Monthly = () => {
                                     ))}
                                 </Form.Select>
                             </Col>
-                        </Row>
-
-                        <Row className='m-auto mt-4'>
-                            <Col md={3} sm={12} className='m-auto'>
-                                <Form.Label className="fw-bold">
-                                    End Year
-                                </Form.Label>
-                                <Form.Select value={secYear} onChange={handleSecYear}>
-                                    {years.map((option) => (
-                                        <option key={option.value} value={option.value}>{option.label}</option>
-                                    ))}
-                                </Form.Select>
-                            </Col>
-                            <Col md={3} sm={12} className='m-auto'>
-                                <Form.Label className="fw-bold">
-                                    End Month
-                                </Form.Label>
-                                <Form.Select value={secMonth} onChange={handleSecMonth}>
-                                    {months.map((option) => (
-                                        <option key={option.value} value={option.value}>{option.label}</option>
-                                    ))}
-                                </Form.Select>
-                            </Col>
-                            <Col md={3} sm={12} className='m-auto'>
-                                <Form.Label className="fw-bold">
-                                    End Day
-                                </Form.Label>
-                                <Form.Select value={secDay} onChange={handleSecDay}>
-                                    <option defaultValue value='Select Day'>Select Day</option>
-                                    {days.map((option) => (
-                                        <option key={option.value} value={option.value}>{option.label}</option>
-                                    ))}
-                                </Form.Select>
+                            <Col md={3} sm={12} className='m-auto mt-3'>
+                                <Button type='button' className='btn btn-success w-100 fw-bold mt-3' onClick={getReport}>Get Report</Button>
                             </Col>
                         </Row>
-
-                        <Col md={3} sm={12} className='m-auto mt-3'>
-                            <Button type='button' className='btn btn-success w-100 fw-bold mt-3' onClick={getReport}>Get Report</Button>
-                        </Col>
                     </Form>
                     <Row className='m-auto'>
                         <Col lg={6} md={6} sm={12} className='m-auto mt-5'>
-                            <h3 className='text-center fw-bold'>
-                                From: {`${year}-${monthsNames[month - 1]} ${day}`},{"  "}
-                                To: {`${secYear}-${monthsNames[secMonth - 1]} ${secDay}`}
-                            </h3>
+                            <h3 className='text-center fw-bold'>Result: {`${constituentDate[0]}-${monthsNames[constituentDate[1] - 1]} ${constituentDate[2]}`}</h3>
                             <Table bordered hover variant='dark' className='my-5'>
                                 <thead>
                                     <tr className='text-center'>

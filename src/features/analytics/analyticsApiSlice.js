@@ -11,12 +11,15 @@ const initialState = analyticsAdapter.getInitialState()
 export const analyticsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getAnalytics: builder.query({
-            query: (query) => ({
-                url: `/pc/report?year=${query[0]}&month=${query[1]}&day=${query[2]}`,
-                validateStatus: (response, result) => {
-                    return response.status === 200 && !result.isError
+            query: (query) => {
+                console.log(query);
+                return {
+                    url: `/pc/report?startDate=${query.startDate}&endDate=${query.endDate}`,
+                    validateStatus: (response, result) => {
+                        return response.status === 200 && !result.isError
+                    }
                 }
-            }),
+            },
             transformResponse: responseData => {
                 const loadedAnalytics = responseData?.map(analytics => {
                     analytics.id = analytics._id
