@@ -12,7 +12,6 @@ export const analyticsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getAnalytics: builder.query({
             query: (query) => {
-                console.log(query);
                 return {
                     url: `/pc/report?startDate=${query.startDate}&endDate=${query.endDate}`,
                     validateStatus: (response, result) => {

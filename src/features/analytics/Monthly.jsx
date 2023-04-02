@@ -3,7 +3,7 @@ import Loader from '../../components/Loader'
 import { Container, Row, Col, Form, Table, Button } from 'react-bootstrap'
 import { useGetAnalyticsQuery } from './analyticsApiSlice'
 import { Bar } from 'react-chartjs-2'
-import { Link } from 'react-router-dom'
+import moment from 'moment'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -128,15 +128,12 @@ const Monthly = () => {
     const getReport = () => {
         setStartDate(`${year}-${month}-${day}`)
         setEndDate(`${secYear}-${secMonth}-${secDay}`)
-        console.log(startDate, endDate);
     }
 
     const setReset = () => {
         setStartDate(`${today.getFullYear()}-${today.getMonth() + 1}-1`)
         setEndDate(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`)
     }
-
-    console.log(startDate, endDate, { year, month, day, secYear, secMonth, secDay });
 
     if (isLoading) return <Loader />
 
@@ -232,9 +229,10 @@ const Monthly = () => {
                     </Form>
                     <Row className='m-auto'>
                         <Col lg={6} md={6} sm={12} className='m-auto mt-5'>
-                            <h3 className='text-center fw-bold'>
-                                From: {`${year}-${monthsNames[month - 1]} ${day}`},{"  "}
-                                To: {`${secYear}-${monthsNames[secMonth - 1]} ${secDay}`}
+                            <h3 className='d-flex flex-lg-row flex-column justify-content-center align-items-center text-center fw-bold'>
+                                <p>{moment(startDate).format('MMMM Do YYYY')}</p>
+                                <p className='fw-bold fav mx-4'>To</p>
+                                <p>{moment(endDate).format('MMMM Do YYYY')}</p>
                             </h3>
                             <Table bordered hover variant='dark' className='my-5'>
                                 <thead>
